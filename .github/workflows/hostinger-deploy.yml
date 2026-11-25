@@ -1,0 +1,84 @@
+name: Build & Deploy BIOSFERA (Hostinger)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Validate & Build (npm)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript typecheck
+        run: npm run lint
+
+      - name: Build production bundle
+        run: npm run build
+        env:
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+
+      - name: Upload Hostinger dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: biosfera-dist
+          path: dist/
+          include-hidden-files: true
+          retention-days: 14
+
+  deploy-hostinger:
+    name: Deploy to Hostinger (FTP)
+    needs: build
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Hostinger FTP configuration
+        id: check-ftp
+        env:
+          FTP_SERVER: ${{ secrets.HOSTINGER_FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+        run: |
+          if [ -n "$FTP_SERVER" ] && [ -n "$FTP_USERNAME" ] && [ -n "$FTP_PASSWORD" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Hostinger FTP secrets not configured; skipping FTP upload."
+          fi
+
+      - name: Download built dist artifact
+        if: steps.check-ftp.outputs.enabled == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: biosfera-dist
+          path: ./dist
+
+      - name: Sync dist/ to Hostinger public_html
+        if: steps.check-ftp.outputs.enabled == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOSTINGER_FTP_SERVER }}
+          username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.HOSTINGER_FTP_REMOTE_DIR || '/public_html/' }}

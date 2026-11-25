@@ -1,0 +1,397 @@
+{
+  "entities": {
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Configurações institucionais editáveis da página inicial, indicadores e contactos.",
+      "type": "object",
+      "properties": {
+        "heroTitle": { "type": "string", "minLength": 5, "maxLength": 160 },
+        "heroSubtitle": { "type": "string", "minLength": 10, "maxLength": 400 },
+        "institutionalTitle": { "type": "string", "minLength": 5, "maxLength": 160 },
+        "institutionalDescription": { "type": "string", "minLength": 10, "maxLength": 1200 },
+        "yearsExperience": { "type": "string", "maxLength": 32 },
+        "projectsCompleted": { "type": "string", "maxLength": 32 },
+        "studiesDeveloped": { "type": "string", "maxLength": 32 },
+        "licensesSupported": { "type": "string", "maxLength": 32 },
+        "indicatorsConfirmed": { "type": "boolean" },
+        "address": { "type": "string", "maxLength": 240 },
+        "generalEmail": { "type": "string", "format": "email", "maxLength": 120 },
+        "recruitmentEmail": { "type": "string", "format": "email", "maxLength": 120 },
+        "phonePrimary": { "type": "string", "maxLength": 40 },
+        "phoneSecondary": { "type": "string", "maxLength": 40 },
+        "whatsappNumber": { "type": "string", "maxLength": 40 },
+        "missionText": { "type": "string", "maxLength": 800 },
+        "visionText": { "type": "string", "maxLength": 800 },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "heroTitle",
+        "heroSubtitle",
+        "institutionalTitle",
+        "institutionalDescription",
+        "yearsExperience",
+        "indicatorsConfirmed",
+        "address",
+        "generalEmail",
+        "recruitmentEmail",
+        "phonePrimary",
+        "phoneSecondary",
+        "whatsappNumber",
+        "updatedAt"
+      ]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "Serviço técnico prestado pela BIOSFERA.",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "minLength": 1, "maxLength": 4 },
+        "slug": { "type": "string", "minLength": 2, "maxLength": 80, "pattern": "^[a-z0-9\\-]+$" },
+        "title": { "type": "string", "minLength": 3, "maxLength": 140 },
+        "shortDescription": { "type": "string", "minLength": 10, "maxLength": 400 },
+        "fullDescription": { "type": "string", "minLength": 10, "maxLength": 3000 },
+        "objectives": { "type": "array" },
+        "benefits": { "type": "array" },
+        "methodology": { "type": "array" },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "iconName": { "type": "string", "maxLength": 60 },
+        "order": { "type": "number" },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "code",
+        "slug",
+        "title",
+        "shortDescription",
+        "fullDescription",
+        "objectives",
+        "benefits",
+        "methodology",
+        "imageUrl",
+        "iconName",
+        "order",
+        "active",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Projecto confirmado e autorizado do portfólio da BIOSFERA.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 3, "maxLength": 180 },
+        "client": { "type": "string", "maxLength": 160 },
+        "location": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "sector": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Estudos ambientais",
+            "Licenciamento ambiental",
+            "Auditorias ambientais",
+            "Monitorização ambiental",
+            "Indústria e energia",
+            "Portos e terminais",
+            "Gestão de resíduos",
+            "Projectos de sustentabilidade"
+          ]
+        },
+        "description": { "type": "string", "minLength": 10, "maxLength": 3000 },
+        "servicesProvided": { "type": "array" },
+        "results": { "type": "string", "maxLength": 1200 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "confirmed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "title",
+        "location",
+        "sector",
+        "category",
+        "description",
+        "servicesProvided",
+        "imageUrl",
+        "confirmed",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "GalleryItem": {
+      "title": "GalleryItem",
+      "description": "Fotografia documental na galeria da BIOSFERA.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 3, "maxLength": 160 },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Trabalhos de campo",
+            "Visitas técnicas",
+            "Campanhas de monitorização",
+            "Recolha de amostras",
+            "Avaliações ambientais",
+            "Actividades industriais",
+            "Reuniões técnicas",
+            "Projectos concluídos"
+          ]
+        },
+        "caption": { "type": "string", "maxLength": 500 },
+        "location": { "type": "string", "maxLength": 140 },
+        "imageUrl": { "type": "string", "minLength": 5, "maxLength": 500 },
+        "capturedAt": { "type": "string", "maxLength": 40 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "title",
+        "category",
+        "caption",
+        "imageUrl",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "NewsArticle": {
+      "title": "NewsArticle",
+      "description": "Notícia, artigo técnico ou publicação institucional.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 4, "maxLength": 200 },
+        "slug": { "type": "string", "minLength": 2, "maxLength": 120, "pattern": "^[a-z0-9\\-]+$" },
+        "category": {
+          "type": "string",
+          "enum": [
+            "Notícias institucionais",
+            "Novos projectos",
+            "Actividades da empresa",
+            "Artigos técnicos",
+            "Informações ambientais",
+            "Legislação e actualizações ambientais",
+            "Eventos e formações"
+          ]
+        },
+        "summary": { "type": "string", "minLength": 10, "maxLength": 400 },
+        "content": { "type": "string", "minLength": 20, "maxLength": 8000 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "publishedDate": { "type": "string", "maxLength": 40 },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "title",
+        "slug",
+        "category",
+        "summary",
+        "content",
+        "imageUrl",
+        "publishedDate",
+        "published",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Partner": {
+      "title": "Partner",
+      "description": "Parceiro ou cliente institucional autorizado pela BIOSFERA.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "sector": { "type": "string", "maxLength": 120 },
+        "logoUrl": { "type": "string", "minLength": 5, "maxLength": 500 },
+        "websiteUrl": { "type": "string", "maxLength": 300 },
+        "authorized": { "type": "boolean" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "name",
+        "logoUrl",
+        "authorized",
+        "order",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ProposalRequest": {
+      "title": "ProposalRequest",
+      "description": "Pedido de proposta técnica submetido pelo formulário do website.",
+      "type": "object",
+      "properties": {
+        "companyName": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "contactName": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "email": { "type": "string", "format": "email", "maxLength": 140 },
+        "phone": { "type": "string", "minLength": 6, "maxLength": 40 },
+        "sector": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "serviceRequested": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "projectLocation": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "description": { "type": "string", "minLength": 10, "maxLength": 3000 },
+        "attachmentName": { "type": "string", "maxLength": 200 },
+        "attachmentUrl": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["novo", "em_analise", "respondido", "arquivado"] },
+        "adminNotes": { "type": "string", "maxLength": 1500 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "companyName",
+        "contactName",
+        "email",
+        "phone",
+        "sector",
+        "serviceRequested",
+        "projectLocation",
+        "description",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ContactMessage": {
+      "title": "ContactMessage",
+      "description": "Mensagem de contacto geral enviada pelo formulário.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "email": { "type": "string", "format": "email", "maxLength": 140 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "subject": { "type": "string", "minLength": 2, "maxLength": 180 },
+        "message": { "type": "string", "minLength": 5, "maxLength": 3000 },
+        "status": { "type": "string", "enum": ["novo", "lido", "respondido"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "name",
+        "email",
+        "subject",
+        "message",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MediaAsset": {
+      "title": "MediaAsset",
+      "description": "Repositório administrativo de imagens e documentos técnicos.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "type": { "type": "string", "enum": ["image", "document"] },
+        "category": { "type": "string", "maxLength": 80 },
+        "url": { "type": "string", "minLength": 5, "maxLength": 500 },
+        "fileName": { "type": "string", "maxLength": 180 },
+        "mimeType": { "type": "string", "maxLength": 80 },
+        "sizeLabel": { "type": "string", "maxLength": 40 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "title",
+        "type",
+        "category",
+        "url",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Registo de utilizador administrador autorizado.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email", "maxLength": 140 },
+        "name": { "type": "string", "maxLength": 120 },
+        "role": { "type": "string", "enum": ["admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role", "createdAt"]
+    },
+    "NewsletterSubscriber": {
+      "title": "NewsletterSubscriber",
+      "description": "Subscritor de actualizações sobre legislação ambiental e notícias da BIOSFERA.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email", "minLength": 5, "maxLength": 140 },
+        "name": { "type": "string", "maxLength": 120 },
+        "topics": { "type": "array" },
+        "status": { "type": "string", "enum": ["ativo", "cancelado"] },
+        "sourcePage": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "name", "topics", "status", "sourcePage", "createdAt", "updatedAt"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Testemunho e comentário público sobre os serviços e actuação da BIOSFERA.",
+      "type": "object",
+      "properties": {
+        "authorName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "organization": { "type": "string", "maxLength": 140 },
+        "role": { "type": "string", "maxLength": 120 },
+        "rating": { "type": "number" },
+        "comment": { "type": "string", "minLength": 8, "maxLength": 1500 },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorName", "organization", "role", "rating", "comment", "published", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/siteSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/SiteSettings" },
+      "description": "Configurações institucionais globais (documento principal: main)."
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/Service" },
+      "description": "Catálogo de serviços ambientais prestados pela BIOSFERA."
+    },
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Projectos confirmados e autorizados do portfólio."
+    },
+    "/gallery/{itemId}": {
+      "schema": { "$ref": "#/entities/GalleryItem" },
+      "description": "Fotografias técnicas e de campo na galeria institucional."
+    },
+    "/news/{articleId}": {
+      "schema": { "$ref": "#/entities/NewsArticle" },
+      "description": "Publicações de notícias, legislação e artigos técnicos."
+    },
+    "/partners/{partnerId}": {
+      "schema": { "$ref": "#/entities/Partner" },
+      "description": "Logótipos de parceiros e clientes autorizados."
+    },
+    "/proposals/{proposalId}": {
+      "schema": { "$ref": "#/entities/ProposalRequest" },
+      "description": "Pedidos de orçamento e proposta comercial (PII restrita a administradores)."
+    },
+    "/contacts/{contactId}": {
+      "schema": { "$ref": "#/entities/ContactMessage" },
+      "description": "Mensagens recebidas via formulário de contacto (PII restrita a administradores)."
+    },
+    "/media/{mediaId}": {
+      "schema": { "$ref": "#/entities/MediaAsset" },
+      "description": "Biblioteca de imagens e documentos gerida pelo administrador."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Lista de administradores autenticados."
+    },
+    "/newsletterSubscribers/{subscriberId}": {
+      "schema": { "$ref": "#/entities/NewsletterSubscriber" },
+      "description": "Subscritores da newsletter de legislação ambiental e notícias (PII restrita a administradores)."
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": { "$ref": "#/entities/Testimonial" },
+      "description": "Testemunhos e comentários submetidos por clientes e visitantes."
+    }
+  }
+}

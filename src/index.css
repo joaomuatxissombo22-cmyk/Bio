@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-biosfera-dark: #1B6B4A;
+  --color-biosfera-green: #1E7E54;
+  --color-biosfera-bright: #2EA36F;
+  --color-biosfera-light: #7FD1A8;
+  --color-biosfera-lime: #8BC53F;
+  --color-biosfera-lime-light: #BCE87D;
+  --color-biosfera-navy: #182C61;
+  --color-biosfera-blue: #1D5E9C;
+  --color-biosfera-surface: #F4F7F5;
+  --color-biosfera-graphite: #29332F;
+}
+
+@keyframes hero-slow-drift {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-hero-drift {
+  animation: hero-slow-drift 28s ease-in-out infinite;
+  will-change: transform;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    color: #29332F;
+    background-color: #FFFFFF;
+  }
+
+  html.dark {
+    color: #EAF4EE;
+    background-color: #081410;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes title-sheen {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.dynamic-title-sheen {
+  background-image: linear-gradient(110deg, #182C61 0%, #1B6B4A 38%, #2EA36F 65%, #1B6B4A 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: title-sheen 9s ease-in-out infinite;
+}
+
+html.dark .dynamic-title-sheen {
+  background-image: linear-gradient(110deg, #7FD1A8 0%, #BCE87D 45%, #EAF4EE 75%, #7FD1A8 100%);
+}
+
+.dynamic-title-sheen-light {
+  background-image: linear-gradient(110deg, #FFFFFF 0%, #BCE87D 48%, #FFFFFF 82%, #7FD1A8 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: title-sheen 10s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dynamic-title-sheen,
+  .dynamic-title-sheen-light {
+    animation: none;
+    background-position: 0% 50%;
+  }
+}
+
