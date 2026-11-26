@@ -20,6 +20,7 @@ import { SiteLanguage, useLanguage } from '../context/LanguageContext';
 import { NAV_LABELS } from '../i18n/translations';
 import { ChristmasNotice } from './ChristmasNotice';
 import { NotificationBar } from './NotificationBar';
+import { SantaHatOverlay } from './SantaHatOverlay';
 
 const LANGUAGE_OPTIONS: {
   code: SiteLanguage;
@@ -104,20 +105,23 @@ export const Layout: React.FC<{
       {/* Sticky 3-Zone Header */}
       <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0F211B]/95 backdrop-blur-md border-b border-neutral-200/80 dark:border-[#224738]">
         <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 h-[90px] flex items-center justify-between gap-3 sm:gap-5">
-          {/* Zone 1: Crisp Minimalist Dynamic Brand Mark */}
+          {/* Zone 1: Crisp Minimalist Dynamic Brand Mark + Conditional Festive Hat Overlay */}
           <Link
             to="/"
             aria-label={t('BIOSFERA – Página Inicial', 'BIOSFERA – Home Page', 'BIOSFERA – 首頁')}
-            className="flex items-center whitespace-nowrap shrink-0 px-2.5 sm:px-3 py-1 rounded-xl bg-white border border-neutral-200/90 shadow-xs dark:border-[#8BC53F]/65 focus-visible:outline-2 focus-visible:outline-[#1E7E54] transition-all hover:border-[#1E7E54]/50 dark:hover:border-[#BCE87D]"
+            className="group relative flex items-center whitespace-nowrap shrink-0 px-2.5 sm:px-3 py-1 rounded-xl bg-white border border-neutral-200/90 shadow-xs dark:border-[#8BC53F]/65 focus-visible:outline-2 focus-visible:outline-[#1E7E54] transition-all hover:border-[#1E7E54]/50 dark:hover:border-[#BCE87D] overflow-visible"
           >
-            <img
-              src={BIOSFERA_LOGO_GIF_URL}
-              onError={(e) => {
-                e.currentTarget.src = BIOSFERA_LOGO_URL;
-              }}
-              alt="Logótipo BIOSFERA – Consultoria Ambiental"
-              className="h-[60px] sm:h-[68px] w-auto object-contain transition-transform duration-300 hover:scale-[1.02]"
-            />
+            <div className="relative inline-flex items-center overflow-visible">
+              <SantaHatOverlay className="absolute left-[48.2%] -translate-x-1/2 -top-[14px] sm:-top-[16px] w-[30px] sm:w-[34px] transition-transform duration-300 group-hover:scale-105" />
+              <img
+                src={BIOSFERA_LOGO_GIF_URL}
+                onError={(e) => {
+                  e.currentTarget.src = BIOSFERA_LOGO_URL;
+                }}
+                alt="Logótipo BIOSFERA – Consultoria Ambiental"
+                className="h-[60px] sm:h-[68px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+              />
+            </div>
           </Link>
 
           {/* Zone 2: Center Navigation */}

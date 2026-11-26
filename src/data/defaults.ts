@@ -10,9 +10,9 @@ import type {
 } from '../types';
 
 export const BIOSFERA_LOGO_URL = '/assets/aistudio/passe-32_118f49e4.png';
-export const BIOSFERA_LOGO_GIF_URL = '/assets/biosfera-natal.gif?v=3';
+export const BIOSFERA_LOGO_GIF_URL = '/assets/biosfera-natal.gif?v=4';
 
-export const IMG_HERO = '/assets/aistudio/_MGL0164_56bb6be1.jpg';
+export const IMG_HERO = '/assets/aistudio/_MGL0157_cc28238c.jpg';
 export const IMG_FIELD = '/assets/aistudio/_MGL0362_311a9a2d.jpg';
 export const IMG_INDUSTRIAL = '/assets/aistudio/WhatsApp_Image_2025-04-09_at_14.03.02_55722da1.jpeg';
 export const IMG_WASTE = '/assets/aistudio/WhatsApp_Image_2025-04-09_at_14.03.03__10__038ac7eb.jpeg';

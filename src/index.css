@@ -103,11 +103,29 @@ html.dark .dynamic-title-sheen {
   animation: title-sheen 10s ease-in-out infinite;
 }
 
+@keyframes santa-hat-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(2.5deg) translateY(-1px);
+  }
+}
+
+.animate-santa-hat-sway {
+  transform-origin: 50% 85%;
+  animation: santa-hat-sway 4.4s ease-in-out infinite;
+  will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dynamic-title-sheen,
-  .dynamic-title-sheen-light {
+  .dynamic-title-sheen-light,
+  .animate-santa-hat-sway {
     animation: none;
     background-position: 0% 50%;
   }
 }
+
 

@@ -191,13 +191,13 @@ export const HomePage: React.FC = () => {
             <SafeImage
               src={IMG_HERO}
               alt={t(
-                'Equipa técnica da BIOSFERA em campanha de monitorização ambiental junto a recurso hídrico em Angola',
-                'BIOSFERA technical team conducting environmental monitoring beside a river ecosystem in Angola'
+                'Equipa técnica da BIOSFERA em expedição de campo junto ao rio e embarcação de monitorização ambiental em Angola',
+                'BIOSFERA technical field team on an environmental monitoring expedition along an Angolan river'
               )}
-              className="w-full h-full object-cover object-[60%_22%]"
+              className="w-full h-full object-cover object-[68%_28%]"
             />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#182C61]/88 via-[#1B6B4A]/68 to-[#1B6B4A]/22" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#182C61]/90 via-[#1B6B4A]/70 to-[#1B6B4A]/20" />
         </div>
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
