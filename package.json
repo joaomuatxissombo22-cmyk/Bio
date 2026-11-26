@@ -3,14 +3,16 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "main": "server.js",
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=20.19.0",
     "npm": ">=9.0.0"
   },
   "scripts": {
     "dev": "tsx server.ts",
-    "start": "tsx server.ts",
+    "start": "node server.js",
     "build": "vite build",
+    "postinstall": "node -e \"import('fs').then(async (fs) => { if (process.env.SKIP_POSTINSTALL_BUILD !== 'true' && fs.existsSync('vite.config.ts') && fs.existsSync('src/main.tsx')) { const { build } = await import('vite'); await build(); } })\"",
     "build:check": "npm run lint && npm run build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
