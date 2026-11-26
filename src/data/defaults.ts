@@ -10,7 +10,7 @@ import type {
 } from '../types';
 
 export const BIOSFERA_LOGO_URL = '/assets/aistudio/passe-32_118f49e4.png';
-export const BIOSFERA_LOGO_GIF_URL = '/assets/biosfera-natal.gif?v=2';
+export const BIOSFERA_LOGO_GIF_URL = '/assets/biosfera-natal.gif?v=3';
 
 export const IMG_HERO = '/assets/aistudio/_MGL0164_56bb6be1.jpg';
 export const IMG_FIELD = '/assets/aistudio/_MGL0362_311a9a2d.jpg';

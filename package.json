@@ -11,11 +11,11 @@
   "scripts": {
     "dev": "tsx server.ts",
     "start": "node server.js",
-    "build": "vite build",
-    "postinstall": "node -e \"import('fs').then(async (fs) => { if (process.env.SKIP_POSTINSTALL_BUILD !== 'true' && fs.existsSync('vite.config.ts') && fs.existsSync('src/main.tsx')) { const { build } = await import('vite'); await build(); } })\"",
+    "build": "vite build && esbuild server.ts --bundle --platform=node --format=esm --packages=external --outfile=dist-server/server.mjs",
+    "postinstall": "node -e \"import('fs').then(async (fs) => { if (process.env.SKIP_POSTINSTALL_BUILD !== 'true' && fs.existsSync('vite.config.ts') && fs.existsSync('src/main.tsx')) { const { build: buildClient } = await import('vite'); await buildClient(); const { build: buildServer } = await import('esbuild'); await buildServer({ entryPoints: ['server.ts'], bundle: true, platform: 'node', format: 'esm', packages: 'external', outfile: 'dist-server/server.mjs' }); } })\"",
     "build:check": "npm run lint && npm run build",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist dist-server",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "@vis.gl/react-google-maps": "^1.10.2",
     "@vitejs/plugin-react": "^6.1.1",
     "dotenv": "^17.2.3",
+    "esbuild": "^0.28.2",
     "eslint": "^10.15.0",
     "express": "^4.21.2",
     "firebase": "^13.4.0",
@@ -41,7 +42,6 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.21",
-    "esbuild": "^0.28.2",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "@types/express": "^4.17.21"

@@ -1,30 +1,58 @@
 import express from 'express';
 import crypto from 'crypto';
 import fs from 'fs';
+import os from 'os';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const INFERRED_ROOT =
+  path.basename(__dirname) === 'dist-server' || path.basename(__dirname) === 'dist'
+    ? path.dirname(__dirname)
+    : __dirname;
+const ROOT_DIR = process.env.BIOSFERA_ROOT_DIR || INFERRED_ROOT || process.cwd();
 
-const PORT = Number(process.env.PORT) || 3000;
-const ROOT_DIR = process.cwd();
-const UPLOADS_DIR = path.resolve(ROOT_DIR, 'public', 'uploads');
-const DATA_DIR = path.resolve(ROOT_DIR, '.biosfera-data');
+dotenv.config({ path: path.resolve(ROOT_DIR, '.env') });
+
+const rawPort = process.env.PORT?.trim();
+const PORT: number | string =
+  rawPort && /^\d+$/.test(rawPort) ? Number(rawPort) : rawPort || 3000;
+
+function ensureWritableDir(preferredDir: string, fallbackName: string): string {
+  try {
+    if (!fs.existsSync(preferredDir)) {
+      fs.mkdirSync(preferredDir, { recursive: true });
+    }
+    fs.accessSync(preferredDir, fs.constants.W_OK);
+    return preferredDir;
+  } catch (err) {
+    const fallbackDir = path.join(os.tmpdir(), fallbackName);
+    try {
+      if (!fs.existsSync(fallbackDir)) {
+        fs.mkdirSync(fallbackDir, { recursive: true });
+      }
+      console.warn(`Aviso: usando diretório temporário ${fallbackDir}:`, err);
+      return fallbackDir;
+    } catch {
+      return preferredDir;
+    }
+  }
+}
+
+const UPLOADS_DIR = ensureWritableDir(
+  path.resolve(ROOT_DIR, 'public', 'uploads'),
+  'biosfera-uploads'
+);
+const DATA_DIR = ensureWritableDir(
+  path.resolve(ROOT_DIR, '.biosfera-data'),
+  'biosfera-data'
+);
 const AUTH_FILE = path.resolve(DATA_DIR, 'portal-auth.json');
 const DEFAULT_PORTAL_KEY = 'biosfera-portal-7f9a';
 const SESSION_SECRET = process.env.ADMIN_SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
-
-try {
-  if (!fs.existsSync(UPLOADS_DIR)) {
-    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-  }
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
-  }
-} catch (err) {
-  console.warn('Aviso ao preparar diretórios locais:', err);
-}
 
 interface StoredPortalAuth {
   username?: string;
@@ -1386,9 +1414,33 @@ ${xmlItems}
     }
   );
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`BIOSFERA server listening on http://0.0.0.0:${PORT}`);
+  const onListening = () => {
+    const location =
+      typeof PORT === 'number'
+        ? `http://${process.env.HOST || '0.0.0.0'}:${PORT}`
+        : `socket ${PORT}`;
+    console.log(`BIOSFERA server listening on ${location}`);
+  };
+
+  const server =
+    typeof PORT === 'string'
+      ? app.listen(PORT, onListening)
+      : app.listen(PORT, process.env.HOST || '0.0.0.0', onListening);
+
+  server.on('error', (err) => {
+    console.error('BIOSFERA server listen error:', err);
   });
 }
 
-startServer();
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Promise Rejection:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+startServer().catch((err) => {
+  console.error('Fatal error starting BIOSFERA server:', err);
+  process.exitCode = 1;
+});
