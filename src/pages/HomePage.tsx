@@ -93,6 +93,36 @@ const HERO_PHOTO_SLIDES: HeroPhotoSlide[] = [
     enCaption: 'Technical Inspection & Environmental Survey',
     zhCaption: '現場技術稽查與環境調查',
   },
+  {
+    src: '/assets/aistudio/_MGL0327_58186c84.jpg',
+    objectPosition: 'object-[58%_22%]',
+    ptAlt: 'Especialistas ambientais da BIOSFERA na recolha e acondicionamento técnico de amostras de solo e sedimentos',
+    enAlt: 'BIOSFERA environmental specialists collecting and sealing soil and sediment field samples',
+    zhAlt: 'BIOSFERA 環境專家穿戴防護裝備執行土壤與底泥樣本採集作業',
+    ptCaption: 'Amostragem de Solos e Sedimentos',
+    enCaption: 'Soil & Sediment Sampling',
+    zhCaption: '土壤與底泥現場採樣',
+  },
+  {
+    src: '/assets/aistudio/_MGL0187_6036e79f.jpg',
+    objectPosition: 'object-[56%_22%]',
+    ptAlt: 'Técnicos ambientais da BIOSFERA a deslocarem-se em área florestal com tripé e equipamento de monitorização',
+    enAlt: 'BIOSFERA environmental technicians advancing into woodland with field monitoring tripod gear',
+    zhAlt: 'BIOSFERA 環境技術人員攜帶三腳架監測儀器進入林地展開生態調查',
+    ptCaption: 'Levantamento de Fauna, Flora e Biodiversidade',
+    enCaption: 'Flora, Fauna & Biodiversity Survey',
+    zhCaption: '動植物生態與生物多樣性調查',
+  },
+  {
+    src: '/assets/aistudio/_MGL0372_copy_b3ed7f8b.jpg',
+    objectPosition: 'object-[54%_28%]',
+    ptAlt: 'Equipa multidisciplinar completa da BIOSFERA em missão ambiental junto ao rio e embarcações de campo',
+    enAlt: 'Full BIOSFERA multidisciplinary technical team during a riverbank environmental expedition in Angola',
+    zhAlt: 'BIOSFERA 完整跨專業技術團隊於安哥拉河岸執行野外環境考察任務合影',
+    ptCaption: 'Equipa Multidisciplinar em Todo o Território',
+    enCaption: 'Multidisciplinary Team Across Angola',
+    zhCaption: '深耕安哥拉全國的跨專業技術團隊',
+  },
 ];
 
 const AnimatedMetricValue: React.FC<{
@@ -409,8 +439,8 @@ export const HomePage: React.FC = () => {
                       <span
                         className={`block h-1.5 rounded-full transition-all duration-300 ${
                           isActive
-                            ? 'w-9 bg-[#BCE87D]'
-                            : 'w-5 bg-white/35 hover:bg-white/65'
+                            ? 'w-7 sm:w-8 bg-[#BCE87D]'
+                            : 'w-3.5 sm:w-4 bg-white/35 hover:bg-white/65'
                         }`}
                       />
                     </button>

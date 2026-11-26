@@ -59,6 +59,30 @@ export const HERO_DYNAMIC_SLIDES = [
     enFocus: 'In-situ inspections, river ecosystems, and nationwide province coverage',
     zhFocus: '現場監測取樣、水域生態評估與全國各省技術支援',
   },
+  {
+    ptTitle: 'AMOSTRAGEM DE SOLOS, SEDIMENTOS E ANÁLISE TÉCNICA',
+    enTitle: 'SOIL & SEDIMENT SAMPLING AND TECHNICAL ANALYSIS',
+    zhTitle: '土壤與底泥採樣及專業環境實驗分析',
+    ptFocus: 'Colheita rigorosa de amostras ambientais segundo protocolos certificados',
+    enFocus: 'Rigorous environmental sample collection under certified technical protocols',
+    zhFocus: '依據認證技術規範執行嚴謹的環境樣本採集作業',
+  },
+  {
+    ptTitle: 'LEVANTAMENTO ECOLÓGICO E GESTÃO DE ECOSSISTEMAS',
+    enTitle: 'ECOLOGICAL SURVEYS & ECOSYSTEM MANAGEMENT',
+    zhTitle: '生態基線調查與自然棲地永續管理',
+    ptFocus: 'Avaliação de fauna, flora e medidas eficazes de mitigação ambiental',
+    enFocus: 'Flora and fauna assessments with effective environmental mitigation plans',
+    zhFocus: '動植物生態調查與高效環境影響減緩對策規劃',
+  },
+  {
+    ptTitle: 'EQUIPA MULTIDISCIPLINAR EM TODO O TERRITÓRIO NACIONAL',
+    enTitle: 'MULTIDISCIPLINARY TEAM ACROSS ALL OF ANGOLA',
+    zhTitle: '深耕安哥拉全國各省的跨領域環境專家團隊',
+    ptFocus: 'Especialistas experientes dedicados à excelência ambiental do seu projecto',
+    enFocus: 'Experienced specialists committed to your project’s environmental excellence',
+    zhFocus: '資深顧問團隊全力守護您每個工程專案的環境合規卓越表現',
+  },
 ];
 
 const SETTINGS_PT_TO_EN: Record<string, string> = {

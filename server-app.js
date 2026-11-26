@@ -477,21 +477,57 @@ function registerBiosferaApp(app, rootDir) {
     next();
   });
 
-  // Fast /favicon.ico handler so browsers and LiteSpeed probes never stall or 404
-  const faviconCandidates = [
-    path.resolve(rootDir, 'public', 'assets', 'aistudio', 'passe-32_118f49e4.png'),
-    path.resolve(rootDir, 'dist', 'assets', 'aistudio', 'passe-32_118f49e4.png'),
-    path.resolve(process.cwd(), 'public', 'assets', 'aistudio', 'passe-32_118f49e4.png'),
-  ];
-  app.get('/favicon.ico', (_req, res) => {
-    const existing = faviconCandidates.find((p) => fs.existsSync(p));
-    if (existing) {
-      res.setHeader('Cache-Control', 'public, max-age=604800');
-      res.type('image/png');
-      return res.sendFile(existing);
-    }
-    return res.status(204).end();
-  });
+  // In-memory cached icon-only favicon routes (zero disk I/O per request, instant 304/200)
+  const memoryAssetCache = new Map();
+  function registerCachedIconRoute(routePath, contentType, candidatePaths) {
+    app.get(routePath, (req, res) => {
+      let cached = memoryAssetCache.get(routePath);
+      if (!cached) {
+        const existing = candidatePaths.find((p) => fs.existsSync(p));
+        if (existing) {
+          try {
+            const buffer = fs.readFileSync(existing);
+            const etag = `"${crypto.createHash('sha1').update(buffer).digest('hex').slice(0, 16)}"`;
+            cached = { buffer, etag };
+            memoryAssetCache.set(routePath, cached);
+          } catch {
+            cached = null;
+          }
+        }
+      }
+      if (!cached) {
+        return res.status(204).end();
+      }
+      res.setHeader('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+      res.setHeader('ETag', cached.etag);
+      if (req.headers['if-none-match'] === cached.etag) {
+        return res.status(304).end();
+      }
+      res.type(contentType);
+      return res.status(200).send(cached.buffer);
+    });
+  }
+
+  registerCachedIconRoute('/favicon.ico', 'image/x-icon', [
+    path.resolve(rootDir, 'public', 'favicon.ico'),
+    path.resolve(rootDir, 'dist', 'favicon.ico'),
+    path.resolve(process.cwd(), 'public', 'favicon.ico'),
+  ]);
+  registerCachedIconRoute('/favicon.png', 'image/png', [
+    path.resolve(rootDir, 'public', 'favicon.png'),
+    path.resolve(rootDir, 'dist', 'favicon.png'),
+    path.resolve(process.cwd(), 'public', 'favicon.png'),
+  ]);
+  registerCachedIconRoute('/favicon-32x32.png', 'image/png', [
+    path.resolve(rootDir, 'public', 'favicon-32x32.png'),
+    path.resolve(rootDir, 'dist', 'favicon-32x32.png'),
+    path.resolve(process.cwd(), 'public', 'favicon-32x32.png'),
+  ]);
+  registerCachedIconRoute('/apple-touch-icon.png', 'image/png', [
+    path.resolve(rootDir, 'public', 'apple-touch-icon.png'),
+    path.resolve(rootDir, 'dist', 'apple-touch-icon.png'),
+    path.resolve(process.cwd(), 'public', 'apple-touch-icon.png'),
+  ]);
 
   app.use('/api/admin', (_req, res, next) => {
     res.setHeader('Cache-Control', 'no-store');
@@ -1126,6 +1162,10 @@ function registerBiosferaApp(app, rootDir) {
     try {
       const forceRefresh = req.query.refresh === '1';
       const payload = await getLiveNewsPayload(forceRefresh);
+      res.setHeader(
+        'Cache-Control',
+        forceRefresh ? 'no-cache' : 'public, max-age=180, stale-while-revalidate=300'
+      );
       return res.status(200).json(payload);
     } catch (err) {
       console.error('Live news error:', err);
@@ -1303,10 +1343,29 @@ ${xmlItems}
       },
     })
   );
-  app.use('/videos', express.static(path.resolve(rootDir, 'public', 'videos'), { dotfiles: 'deny' }));
+  app.use(
+    '/videos',
+    express.static(path.resolve(rootDir, 'public', 'videos'), {
+      dotfiles: 'deny',
+      etag: true,
+      lastModified: true,
+      maxAge: '30d',
+      setHeaders: (res) => {
+        res.setHeader('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+      },
+    })
+  );
   app.use(
     '/assets',
-    express.static(path.resolve(rootDir, 'public', 'assets'), { dotfiles: 'deny', maxAge: '7d' })
+    express.static(path.resolve(rootDir, 'public', 'assets'), {
+      dotfiles: 'deny',
+      etag: true,
+      lastModified: true,
+      maxAge: '30d',
+      setHeaders: (res) => {
+        res.setHeader('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+      },
+    })
   );
 }
 
@@ -1320,22 +1379,49 @@ function registerStaticFrontendAndErrors(app, rootDir) {
     candidateDistDirs[0];
   const distIndex = path.join(distDir, 'index.html');
 
+  // Cache dist/index.html in RAM (auto-refreshes if mtime changes) to minimize disk I/O under load
+  let cachedIndexHtml = null;
+  function getCachedIndexHtml() {
+    try {
+      const stat = fs.statSync(distIndex);
+      if (cachedIndexHtml && cachedIndexHtml.mtimeMs === stat.mtimeMs) {
+        return cachedIndexHtml;
+      }
+      const buffer = fs.readFileSync(distIndex);
+      const etag = `"${crypto.createHash('sha1').update(buffer).digest('hex').slice(0, 16)}"`;
+      cachedIndexHtml = { buffer, etag, mtimeMs: stat.mtimeMs };
+      return cachedIndexHtml;
+    } catch {
+      return null;
+    }
+  }
+
   app.use(
     express.static(distDir, {
       dotfiles: 'deny',
       index: false,
+      etag: true,
+      lastModified: true,
       setHeaders: (res, filePath) => {
         if (filePath.endsWith('index.html')) {
-          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-        } else if (filePath.includes(`${path.sep}assets${path.sep}`)) {
-          res.setHeader('Cache-Control', 'public, max-age=2592000');
+          res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+        } else if (
+          filePath.includes(`${path.sep}assets${path.sep}`) &&
+          /\.(js|mjs|css|woff2|woff)$/i.test(filePath)
+        ) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        } else if (/\.(ico|png|jpe?g|webp|avif|gif|svg|mp4|webm)$/i.test(filePath)) {
+          res.setHeader('Cache-Control', 'public, max-age=2592000, stale-while-revalidate=86400');
+        } else {
+          res.setHeader('Cache-Control', 'public, max-age=604800');
         }
       },
     })
   );
 
-  app.get('*', (_req, res) => {
-    if (!fs.existsSync(distIndex)) {
+  app.get('*', (req, res) => {
+    const indexEntry = getCachedIndexHtml();
+    if (!indexEntry) {
       res
         .status(503)
         .type('html')
@@ -1344,8 +1430,13 @@ function registerStaticFrontendAndErrors(app, rootDir) {
         );
       return;
     }
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.sendFile(distIndex);
+    res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
+    res.setHeader('ETag', indexEntry.etag);
+    if (req.headers['if-none-match'] === indexEntry.etag) {
+      res.status(304).end();
+      return;
+    }
+    res.type('text/html; charset=utf-8').status(200).send(indexEntry.buffer);
   });
 
   app.use((err, _req, res, _next) => {
