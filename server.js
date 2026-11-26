@@ -1,53 +1,48 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath, pathToFileURL } from 'url';
+'use strict';
 
-const __filename = fileURLToPath(import.meta.url);
-const rootDir = path.dirname(__filename);
-const distDir = path.resolve(rootDir, 'dist');
-const distIndex = path.resolve(distDir, 'index.html');
-const distServer = path.resolve(rootDir, 'dist-server', 'server.mjs');
-const isDev = process.env.npm_lifecycle_event === 'dev';
+const express = require('express');
+const { registerBiosferaApp, registerStaticFrontendAndErrors } = require('./server-app.js');
 
-process.env.BIOSFERA_ROOT_DIR = rootDir;
+const ROOT_DIR = __dirname;
+const rawPort = process.env.PORT ? process.env.PORT.trim() : '';
+const PORT = rawPort && /^\d+$/.test(rawPort) ? Number(rawPort) : rawPort || 3000;
 
-if (!isDev && !process.env.NODE_ENV) {
-  process.env.NODE_ENV = 'production';
+const app = express();
+registerBiosferaApp(app, ROOT_DIR);
+registerStaticFrontendAndErrors(app, ROOT_DIR);
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Promise Rejection:', reason);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
+
+// Pure CommonJS + synchronous app.listen(PORT) without IPv4-only host restriction:
+// Compatible with Hostinger LiteSpeed lsnode.js (require('./server.js') on Node 20),
+// dual-stack IPv4/IPv6 reverse proxies, and Unix sockets.
+const server = app.listen(PORT, () => {
+  console.log(`BIOSFERA server listening on ${PORT}`);
+});
+
+// Prevent premature keep-alive resets behind LiteSpeed/Hostinger reverse proxies
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 66000;
+
+server.on('error', (err) => {
+  console.error('BIOSFERA server listen error:', err);
+});
+
+function gracefulShutdown(signal) {
+  console.log(`BIOSFERA server received ${signal}, closing gracefully...`);
+  server.close(() => {
+    process.exit(0);
+  });
+  setTimeout(() => process.exit(0), 4000).unref();
 }
 
-// Fast-path for production (Hostinger / LiteSpeed / Passenger):
-// Boot the pre-compiled dist/server.mjs directly with zero tsx/vite startup overhead.
-if (!isDev && fs.existsSync(distServer) && fs.existsSync(distIndex)) {
-  await import(pathToFileURL(distServer).href);
-} else {
-  // Fallback if postinstall/build did not run before startup
-  if (!isDev && !fs.existsSync(distIndex)) {
-    console.log('BIOSFERA: dist/index.html not found — building production assets with Vite...');
-    const { build: buildClient } = await import('vite');
-    await buildClient({ root: rootDir });
-  }
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
-  if (!isDev && !fs.existsSync(distServer)) {
-    try {
-      const { build: buildServer } = await import('esbuild');
-      await buildServer({
-        entryPoints: [path.resolve(rootDir, 'server.ts')],
-        bundle: true,
-        platform: 'node',
-        format: 'esm',
-        packages: 'external',
-        outfile: distServer,
-      });
-    } catch (err) {
-      console.warn('BIOSFERA: fallback esbuild server compile skipped:', err);
-    }
-  }
-
-  if (!isDev && fs.existsSync(distServer)) {
-    await import(pathToFileURL(distServer).href);
-  } else {
-    const { register } = await import('tsx/esm/api');
-    register();
-    await import(pathToFileURL(path.resolve(rootDir, 'server.ts')).href);
-  }
-}
+module.exports = app;

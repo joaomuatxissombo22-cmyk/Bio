@@ -7,6 +7,7 @@ interface SafeImageProps {
   className?: string;
   fallbackTitle?: string;
   zoomOnHover?: boolean;
+  loading?: 'eager' | 'lazy';
 }
 
 export const SafeImage: React.FC<SafeImageProps> = ({
@@ -15,6 +16,7 @@ export const SafeImage: React.FC<SafeImageProps> = ({
   className = 'w-full h-full object-cover',
   fallbackTitle,
   zoomOnHover = false,
+  loading,
 }) => {
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(false);
@@ -49,6 +51,7 @@ export const SafeImage: React.FC<SafeImageProps> = ({
       ref={imgRef}
       src={src}
       alt={alt}
+      loading={loading}
       referrerPolicy="no-referrer"
       onLoad={() => setLoaded(true)}
       onError={() => setFailed(true)}

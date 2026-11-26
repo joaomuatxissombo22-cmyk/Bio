@@ -2,7 +2,6 @@
   "name": "biosfera-consultoria-ambiental",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "main": "server.js",
   "engines": {
     "node": ">=20.19.0",
@@ -11,11 +10,11 @@
   "scripts": {
     "dev": "tsx server.ts",
     "start": "node server.js",
-    "build": "vite build && esbuild server.ts --bundle --platform=node --format=esm --packages=external --outfile=dist-server/server.mjs",
-    "postinstall": "node -e \"import('fs').then(async (fs) => { if (process.env.SKIP_POSTINSTALL_BUILD !== 'true' && fs.existsSync('vite.config.ts') && fs.existsSync('src/main.tsx')) { const { build: buildClient } = await import('vite'); await buildClient(); const { build: buildServer } = await import('esbuild'); await buildServer({ entryPoints: ['server.ts'], bundle: true, platform: 'node', format: 'esm', packages: 'external', outfile: 'dist-server/server.mjs' }); } })\"",
+    "build": "vite build",
+    "postinstall": "node scripts/postinstall-build.mjs",
     "build:check": "npm run lint && npm run build",
     "preview": "vite preview",
-    "clean": "rm -rf dist dist-server",
+    "clean": "rm -rf dist",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

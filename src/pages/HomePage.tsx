@@ -5,6 +5,8 @@ import {
   Award,
   Briefcase,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   FileCheck2,
   MapPin,
   Shield,
@@ -28,6 +30,70 @@ import {
   localizeService,
   localizeSettings,
 } from '../i18n/translations';
+
+interface HeroPhotoSlide {
+  src: string;
+  objectPosition: string;
+  ptAlt: string;
+  enAlt: string;
+  zhAlt: string;
+  ptCaption: string;
+  enCaption: string;
+  zhCaption: string;
+}
+
+const HERO_PHOTO_SLIDES: HeroPhotoSlide[] = [
+  {
+    src: IMG_HERO,
+    objectPosition: 'object-[68%_28%]',
+    ptAlt: 'Equipa técnica da BIOSFERA em expedição de campo junto ao rio e embarcação de monitorização ambiental em Angola',
+    enAlt: 'BIOSFERA technical field team on an environmental monitoring expedition along an Angolan river',
+    zhAlt: 'BIOSFERA 技術團隊於安哥拉河岸執行環境監測野外考察任務',
+    ptCaption: 'Expedição de Campo e Monitorização Fluvial',
+    enCaption: 'Field Expedition & River Monitoring',
+    zhCaption: '野外考察與河流環境監測',
+  },
+  {
+    src: '/assets/aistudio/_MGL0164_56bb6be1.jpg',
+    objectPosition: 'object-[60%_20%]',
+    ptAlt: 'Técnicos ambientais da BIOSFERA a realizar medição acústica e monitorização de ruído em zona ribeirinha',
+    enAlt: 'BIOSFERA environmental specialists conducting acoustic noise monitoring beside a river',
+    zhAlt: 'BIOSFERA 環境專家於河畔進行聲學與環境噪音監測作業',
+    ptCaption: 'Medição Acústica e Controlo Ambiental',
+    enCaption: 'Acoustic Measurement & Environmental Control',
+    zhCaption: '聲學測量與環境噪音監控',
+  },
+  {
+    src: '/assets/aistudio/_MGL0362_311a9a2d.jpg',
+    objectPosition: 'object-[62%_24%]',
+    ptAlt: 'Especialista da BIOSFERA em análise in-situ da qualidade da água com sonda multiparâmetro',
+    enAlt: 'BIOSFERA specialist performing in-situ water quality measurement with a field probe',
+    zhAlt: 'BIOSFERA 技術專員使用現場儀器執行水質理化參數檢測',
+    ptCaption: 'Análise In-Situ da Qualidade da Água',
+    enCaption: 'In-Situ Water Quality Analysis',
+    zhCaption: '水質現場儀器檢測分析',
+  },
+  {
+    src: '/assets/aistudio/_MGL0127_eb23bc5c.jpg',
+    objectPosition: 'object-[62%_22%]',
+    ptAlt: 'Equipa multidisciplinar da BIOSFERA equipada com drone e sensores de qualidade do ar em missão técnica',
+    enAlt: 'BIOSFERA multidisciplinary team operating drone and air quality monitoring sensors on site',
+    zhAlt: 'BIOSFERA 跨專業團隊操作無人機與空氣品質監測感測儀器',
+    ptCaption: 'Equipa Multidisciplinar e Monitorização Aérea',
+    enCaption: 'Multidisciplinary Team & Aerial Monitoring',
+    zhCaption: '跨專業團隊與無人機環境監測',
+  },
+  {
+    src: '/assets/aistudio/_MGL0151_4b00def9.jpg',
+    objectPosition: 'object-[64%_26%]',
+    ptAlt: 'Operação de levantamento técnico e inspecção ambiental da BIOSFERA em terreno angolano',
+    enAlt: 'BIOSFERA technical field survey and environmental inspection operation in Angola',
+    zhAlt: 'BIOSFERA 技術團隊於安哥拉現場執行環境稽查與勘測作業',
+    ptCaption: 'Inspecção Técnica e Levantamento Ambiental',
+    enCaption: 'Technical Inspection & Environmental Survey',
+    zhCaption: '現場技術稽查與環境調查',
+  },
+];
 
 const AnimatedMetricValue: React.FC<{
   value: string;
@@ -122,15 +188,31 @@ export const HomePage: React.FC = () => {
   const settings = localizeSettings(rawSettings, lang);
 
   const [slideIndex, setSlideIndex] = useState(0);
+  const [timerResetKey, setTimerResetKey] = useState(0);
   const [indicatorsInView, setIndicatorsInView] = useState(false);
   const indicatorsRef = useRef<HTMLElement | null>(null);
 
+  const totalSlides = HERO_PHOTO_SLIDES.length;
+
   useEffect(() => {
     const interval = window.setInterval(() => {
-      setSlideIndex((prev) => (prev + 1) % HERO_DYNAMIC_SLIDES.length);
-    }, 5200);
+      setSlideIndex((prev) => (prev + 1) % totalSlides);
+    }, 5500);
     return () => window.clearInterval(interval);
+  }, [totalSlides, timerResetKey]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    HERO_PHOTO_SLIDES.slice(1).forEach((photo) => {
+      const img = new window.Image();
+      img.src = photo.src;
+    });
   }, []);
+
+  const handleSelectSlide = (idx: number) => {
+    setSlideIndex(((idx % totalSlides) + totalSlides) % totalSlides);
+    setTimerResetKey((prev) => prev + 1);
+  };
 
   useEffect(() => {
     const el = indicatorsRef.current;
@@ -154,7 +236,8 @@ export const HomePage: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  const currentSlide = HERO_DYNAMIC_SLIDES[slideIndex];
+  const currentSlide = HERO_DYNAMIC_SLIDES[slideIndex % HERO_DYNAMIC_SLIDES.length];
+  const currentPhoto = HERO_PHOTO_SLIDES[slideIndex % HERO_PHOTO_SLIDES.length];
   const slideHeadline =
     lang === 'en'
       ? currentSlide.enTitle
@@ -168,6 +251,12 @@ export const HomePage: React.FC = () => {
       : lang === 'zh'
       ? currentSlide.zhFocus
       : currentSlide.ptFocus;
+  const activePhotoCaption =
+    lang === 'en'
+      ? currentPhoto.enCaption
+      : lang === 'zh'
+      ? currentPhoto.zhCaption
+      : currentPhoto.ptCaption;
   const unconfirmedLabel = t('Sob confirmação institucional', 'Pending institutional confirmation');
 
   return (
@@ -184,24 +273,41 @@ export const HomePage: React.FC = () => {
         path="/"
       />
 
-      {/* 1. Hero Section with Authentic Field Photography & Dynamic Typography */}
-      <section className="relative min-h-[600px] lg:min-h-[680px] flex items-center overflow-hidden bg-[#182C61]">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="w-full h-full animate-hero-drift">
-            <SafeImage
-              src={IMG_HERO}
-              alt={t(
-                'Equipa técnica da BIOSFERA em expedição de campo junto ao rio e embarcação de monitorização ambiental em Angola',
-                'BIOSFERA technical field team on an environmental monitoring expedition along an Angolan river'
-              )}
-              className="w-full h-full object-cover object-[68%_28%]"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-[#182C61]/90 via-[#1B6B4A]/70 to-[#1B6B4A]/20" />
+      {/* 1. Hero Section with 5 Rotating Authentic Field Photographs & Dynamic Typography */}
+      <section className="relative min-h-[620px] lg:min-h-[700px] flex flex-col justify-between overflow-hidden bg-[#182C61]">
+        <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+          {HERO_PHOTO_SLIDES.map((photo, idx) => {
+            const isActive = idx === slideIndex;
+            const altText =
+              lang === 'en' ? photo.enAlt : lang === 'zh' ? photo.zhAlt : photo.ptAlt;
+            return (
+              <div
+                key={photo.src}
+                className={`absolute inset-0 transition-opacity duration-1000 ease-out ${
+                  isActive ? 'opacity-100 z-[1]' : 'opacity-0 z-0 pointer-events-none'
+                }`}
+              >
+                <div
+                  className={`w-full h-full transition-transform duration-[1400ms] ease-out ${
+                    isActive ? 'animate-hero-drift scale-100' : 'scale-[1.04]'
+                  }`}
+                >
+                  <SafeImage
+                    src={photo.src}
+                    alt={altText}
+                    loading={idx === 0 ? 'eager' : 'lazy'}
+                    className={`w-full h-full object-cover ${photo.objectPosition}`}
+                  />
+                </div>
+              </div>
+            );
+          })}
+          <div className="absolute inset-0 z-[2] bg-gradient-to-r from-[#182C61]/92 via-[#1B6B4A]/72 to-[#182C61]/22" />
+          <div className="absolute inset-x-0 bottom-0 h-32 z-[2] bg-gradient-to-t from-[#101F47]/80 via-[#101F47]/30 to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
-          <div className="max-w-3xl">
+        <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-10 lg:pt-28 lg:pb-12 w-full flex-1 flex flex-col justify-between">
+          <div className="max-w-3xl my-auto">
             <p className="text-xs sm:text-sm font-semibold tracking-wider text-[#BCE87D] uppercase mb-4">
               {t(
                 'BIOSFERA – Consultoria Ambiental, Lda. · Luanda, Angola',
@@ -261,6 +367,75 @@ export const HomePage: React.FC = () => {
               >
                 <span>{t('Solicitar Consultoria', 'Request Consultancy')}</span>
               </button>
+            </div>
+          </div>
+
+          {/* 5-Image Hero Showcase Controls */}
+          <div className="mt-12 pt-5 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="font-mono text-xs font-semibold text-[#BCE87D] tabular-nums shrink-0">
+                {String(slideIndex + 1).padStart(2, '0')} / {String(totalSlides).padStart(2, '0')}
+              </span>
+              <span className="h-3.5 w-px bg-white/30 shrink-0" aria-hidden="true" />
+              <p className="text-xs sm:text-sm font-medium text-white/90 truncate">
+                {activePhotoCaption}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0">
+              <div
+                className="flex items-center gap-1.5"
+                role="tablist"
+                aria-label={t('Selecionar fotografia em destaque', 'Select featured hero photo')}
+              >
+                {HERO_PHOTO_SLIDES.map((photo, idx) => {
+                  const isActive = idx === slideIndex;
+                  const label =
+                    lang === 'en'
+                      ? photo.enCaption
+                      : lang === 'zh'
+                      ? photo.zhCaption
+                      : photo.ptCaption;
+                  return (
+                    <button
+                      key={photo.src}
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      aria-label={`${idx + 1} / ${totalSlides}: ${label}`}
+                      onClick={() => handleSelectSlide(idx)}
+                      className="py-3 px-0.5 flex items-center focus:outline-none focus-visible:ring-2 focus-visible:ring-[#BCE87D] rounded"
+                    >
+                      <span
+                        className={`block h-1.5 rounded-full transition-all duration-300 ${
+                          isActive
+                            ? 'w-9 bg-[#BCE87D]'
+                            : 'w-5 bg-white/35 hover:bg-white/65'
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleSelectSlide(slideIndex - 1)}
+                  aria-label={t('Imagem anterior', 'Previous image')}
+                  className="w-9 h-9 rounded-lg border border-white/25 bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                >
+                  <ChevronLeft className="w-4 h-4" aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleSelectSlide(slideIndex + 1)}
+                  aria-label={t('Próxima imagem', 'Next image')}
+                  className="w-9 h-9 rounded-lg border border-white/25 bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+                >
+                  <ChevronRight className="w-4 h-4" aria-hidden="true" />
+                </button>
+              </div>
             </div>
           </div>
         </div>

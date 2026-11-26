@@ -51,6 +51,14 @@ export const HERO_DYNAMIC_SLIDES = [
     enFocus: 'Balancing economic growth with ecological preservation',
     zhFocus: '兼顧經濟成長與生態環境永續保存',
   },
+  {
+    ptTitle: 'OPERAÇÕES DE CAMPO E PROTECÇÃO DA BIODIVERSIDADE',
+    enTitle: 'FIELD OPERATIONS & BIODIVERSITY PROTECTION',
+    zhTitle: '現地環境勘查與生物多樣性保護行動',
+    ptFocus: 'Inspecções in-situ, ecossistemas hídricos e apoio em todas as províncias',
+    enFocus: 'In-situ inspections, river ecosystems, and nationwide province coverage',
+    zhFocus: '現場監測取樣、水域生態評估與全國各省技術支援',
+  },
 ];
 
 const SETTINGS_PT_TO_EN: Record<string, string> = {
