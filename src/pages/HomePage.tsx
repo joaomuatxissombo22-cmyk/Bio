@@ -22,7 +22,7 @@ import { LiveEnvironmentalNews } from '../components/LiveEnvironmentalNews';
 import { DynamicHeading } from '../components/DynamicHeading';
 import { useSite } from '../context/SiteContext';
 import { useLanguage } from '../context/LanguageContext';
-import { IMG_HERO, IMG_MANGROVE, SECTORS_LIST } from '../data/defaults';
+import { IMG_HERO, SECTORS_LIST } from '../data/defaults';
 import {
   HERO_DYNAMIC_SLIDES,
   localizeCategory,
@@ -654,12 +654,12 @@ export const HomePage: React.FC = () => {
             <div className="lg:col-span-6">
               <div className="group h-full min-h-[360px] rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#224738]">
                 <SafeImage
-                  src={IMG_MANGROVE}
+                  src="/assets/aistudio/retificado_85b5547b.jpg"
                   alt={t(
-                    'Equipa da BIOSFERA em monitorização ambiental junto a zona húmida e curso de água em Angola',
-                    'BIOSFERA field team conducting environmental monitoring along a riverbank in Angola'
+                    'Especialista da BIOSFERA a lançar drone DJI Mavic 3 Pro para levantamento e monitorização ambiental em Angola',
+                    'BIOSFERA specialist launching a DJI Mavic 3 Pro drone for environmental surveying and monitoring in Angola'
                   )}
-                  className="w-full h-full object-cover object-[50%_20%]"
+                  className="w-full h-full object-cover object-center"
                   zoomOnHover
                 />
               </div>

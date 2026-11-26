@@ -7,7 +7,7 @@ import { DynamicHeading } from '../components/DynamicHeading';
 import { CompanyTimeline } from '../components/CompanyTimeline';
 import { useSite } from '../context/SiteContext';
 import { useLanguage } from '../context/LanguageContext';
-import { IMG_BANNER_ABOUT, IMG_MANGROVE, IMG_OFFICE } from '../data/defaults';
+import { IMG_BANNER_ABOUT, IMG_OFFICE } from '../data/defaults';
 import {
   ABOUT_COMPETENCIES_BY_LANG,
   ABOUT_VALUES_BY_LANG,
@@ -254,12 +254,12 @@ export const AboutPage: React.FC = () => {
           <div className="group rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#224738] bg-white dark:bg-[#11261E] grid grid-cols-1 lg:grid-cols-12">
             <div className="lg:col-span-5 min-h-[240px] overflow-hidden">
               <SafeImage
-                src={IMG_MANGROVE}
+                src="/assets/aistudio/7_414a134f.jpg"
                 alt={t(
-                  'Compromisso com a sustentabilidade e recursos hídricos em Angola',
-                  'Commitment to sustainability and water resources in Angola'
+                  'Equipa técnica da BIOSFERA em operação de estação de monitorização da qualidade do ar em Angola',
+                  'BIOSFERA technical team operating an air quality monitoring station in Angola'
                 )}
-                className="w-full h-full object-cover object-[50%_22%]"
+                className="w-full h-full object-cover object-[50%_20%]"
                 zoomOnHover
               />
             </div>

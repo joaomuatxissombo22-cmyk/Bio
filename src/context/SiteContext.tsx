@@ -209,7 +209,7 @@ export const SiteProvider: React.FC<{ children: React.ReactNode }> = ({ children
           });
           const loadedIds = new Set(loaded.map((g) => g.id));
           const extraDefaults = DEFAULT_GALLERY.filter((g) => !loadedIds.has(g.id));
-          setGallery([...loaded, ...extraDefaults]);
+          setGallery([...extraDefaults, ...loaded]);
         } else {
           setGallery(DEFAULT_GALLERY);
         }

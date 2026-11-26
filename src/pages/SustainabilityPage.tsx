@@ -6,7 +6,7 @@ import { PageBanner } from '../components/PageBanner';
 import { DynamicHeading } from '../components/DynamicHeading';
 import { useSite } from '../context/SiteContext';
 import { useLanguage } from '../context/LanguageContext';
-import { IMG_BIODIVERSITY, IMG_MANGROVE, IMG_WASTE } from '../data/defaults';
+import { IMG_BIODIVERSITY, IMG_WASTE } from '../data/defaults';
 import {
   SUSTAINABILITY_PILLARS_BY_LANG,
   SUSTAINABILITY_PRACTICES_BY_LANG,
@@ -61,12 +61,12 @@ export const SustainabilityPage: React.FC = () => {
             <div className="lg:col-span-6">
               <div className="group h-full min-h-[320px] rounded-2xl overflow-hidden border border-neutral-200 dark:border-[#224738]">
                 <SafeImage
-                  src={IMG_MANGROVE}
+                  src="/assets/aistudio/_MGL0315_6cc72898.jpg"
                   alt={t(
-                    'Monitorização ambiental e conservação de recursos hídricos em Angola',
-                    'Environmental monitoring and water resource conservation in Angola'
+                    'Técnicos ambientais da BIOSFERA em recolha de amostras de solo e conservação ambiental em Angola',
+                    'BIOSFERA environmental technicians conducting soil sampling and conservation work in Angola'
                   )}
-                  className="w-full h-full object-cover object-[50%_20%]"
+                  className="w-full h-full object-cover object-center"
                   zoomOnHover
                 />
               </div>

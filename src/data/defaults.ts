@@ -14,16 +14,16 @@ export const BIOSFERA_LOGO_GIF_URL = '/assets/biosfera-natal.gif?v=4';
 
 export const IMG_HERO = '/assets/aistudio/_MGL0157_cc28238c.jpg';
 export const IMG_FIELD = '/assets/aistudio/_MGL0362_311a9a2d.jpg';
-export const IMG_INDUSTRIAL = '/assets/aistudio/WhatsApp_Image_2025-04-09_at_14.03.02_55722da1.jpeg';
-export const IMG_WASTE = '/assets/aistudio/WhatsApp_Image_2025-04-09_at_14.03.03__10__038ac7eb.jpeg';
+export const IMG_INDUSTRIAL = '/assets/aistudio/WhatsApp_Image_2026-11-26_at_15.45.33__1__104be78e.jpeg';
+export const IMG_WASTE = '/assets/aistudio/42_30a6c71c.jpg';
 export const IMG_MANGROVE = '/assets/aistudio/_MGL0258_161e3e28.jpg';
 export const IMG_BIODIVERSITY = '/assets/aistudio/_MGL0392_6158335f.jpg';
 export const IMG_OFFICE = '/assets/aistudio/111_e7a0d7a9.jpg';
 
 export const IMG_BANNER_ABOUT = '/assets/aistudio/_MGL0372_copy_b3ed7f8b.jpg';
-export const IMG_BANNER_PROJECTS = '/assets/aistudio/WhatsApp_Image_2026-04-27_at_13.48.33_bc1c7174.jpeg';
+export const IMG_BANNER_PROJECTS = '/assets/aistudio/retificado_85b5547b.jpg';
 export const IMG_BANNER_NEWS = '/assets/aistudio/_MGL0127_eb23bc5c.jpg';
-export const IMG_BANNER_CONTACT = '/assets/aistudio/_MGL0145_ae36d4cd.jpg';
+export const IMG_BANNER_CONTACT = '/assets/aistudio/WhatsApp_Image_2026-11-26_at_15.45.32_6f7a3d70.jpeg';
 
 const LEGACY_ASSET_MAP: Record<string, string> = {
   '/src/assets/images/hero_biosfera_angola_1795516405716.jpg': IMG_HERO,
@@ -177,7 +177,7 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
       'Matriz de avaliação de impactes e modelação técnica.',
       'Elaboração do Relatório de Impacte Ambiental e Resumo Não Técnico.',
     ],
-    imageUrl: '/assets/aistudio/_MGL0145_ae36d4cd.jpg',
+    imageUrl: '/assets/aistudio/retificado_85b5547b.jpg',
     iconName: 'FileSearch',
     order: 1,
     active: true,
@@ -208,7 +208,7 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
       'Compilação do processo técnico e submissão formal.',
       'Acompanhamento de vistorias e cumprimento de condicionantes.',
     ],
-    imageUrl: '/assets/aistudio/WhatsApp_Image_2026-04-27_at_13.48.32__1__094d5e3f.jpg',
+    imageUrl: '/assets/aistudio/WhatsApp_Image_2026-11-26_at_15.45.33_982e389a.jpeg',
     iconName: 'ShieldCheck',
     order: 2,
     active: true,
@@ -270,7 +270,7 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
       'Tratamento estatístico e comparação com limites regulamentares.',
       'Submissão e apresentação técnica do RMA.',
     ],
-    imageUrl: IMG_HERO,
+    imageUrl: '/assets/aistudio/5_84d53635.jpg',
     iconName: 'Activity',
     order: 4,
     active: true,
@@ -301,7 +301,7 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
       'Capacitação de equipas e implementação de registos operacionais.',
       'Revisão periódica de eficácia e melhoria contínua.',
     ],
-    imageUrl: IMG_MANGROVE,
+    imageUrl: '/assets/aistudio/_MGL0315_6cc72898.jpg',
     iconName: 'Layers',
     order: 5,
     active: true,
@@ -363,7 +363,7 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
       'Redacção de procedimentos, sinalização e planos de resposta.',
       'Sessões formativas e auditorias periódicas de segurança.',
     ],
-    imageUrl: '/assets/aistudio/_MGL0127_eb23bc5c.jpg',
+    imageUrl: '/assets/aistudio/17_ff3868a9.jpg',
     iconName: 'HardHat',
     order: 7,
     active: true,
@@ -425,7 +425,7 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
       'Análise comparativa face aos padrões nacionais e da OMS/IFC.',
       'Elaboração de relatórios interpretativos com recomendações.',
     ],
-    imageUrl: IMG_FIELD,
+    imageUrl: '/assets/aistudio/7_414a134f.jpg',
     iconName: 'Compass',
     order: 9,
     active: true,
@@ -433,6 +433,105 @@ export const DEFAULT_SERVICES: ServiceItem[] = [
 ];
 
 export const DEFAULT_GALLERY: GalleryItem[] = [
+  {
+    id: 'gal-40',
+    title: 'Descolagem de Drone DJI Mavic 3 Pro em Levantamento Ambiental',
+    category: 'Trabalhos de campo',
+    caption: 'Operação de aeronave não tripulada para mapeamento ambiental, fotogrametria e monitorização de áreas de influência.',
+    location: 'Angola',
+    imageUrl: '/assets/aistudio/retificado_85b5547b.jpg',
+    capturedAt: 'Teledetecção Ambiental',
+  },
+  {
+    id: 'gal-41',
+    title: 'Auditoria Ambiental em Linha de Processamento Industrial',
+    category: 'Actividades industriais',
+    caption: 'Equipa da BIOSFERA devidamente paramentada em auditoria técnica a linhas automatizadas de produção industrial.',
+    location: 'Luanda, Angola',
+    imageUrl: '/assets/aistudio/WhatsApp_Image_2026-11-26_at_15.45.33__1__104be78e.jpeg',
+    capturedAt: 'Auditoria Industrial',
+  },
+  {
+    id: 'gal-42',
+    title: 'Inspecção de Reservatórios de Produtos Químicos Industriais',
+    category: 'Actividades industriais',
+    caption: 'Verificação de conformidade ambiental, contenção secundária e rotulagem em depósitos industriais de aço inoxidável.',
+    location: 'Luanda, Angola',
+    imageUrl: '/assets/aistudio/WhatsApp_Image_2026-11-26_at_15.45.33_982e389a.jpeg',
+    capturedAt: 'Licenciamento Industrial',
+  },
+  {
+    id: 'gal-43',
+    title: 'Monitorização Contínua da Qualidade do Ar em Nave Industrial',
+    category: 'Campanhas de monitorização',
+    caption: 'Instalação e calibração de estação atmosférica YF-IAQM-V1 para controlo rigoroso de partículas e emissões.',
+    location: 'Luanda, Angola',
+    imageUrl: '/assets/aistudio/7_414a134f.jpg',
+    capturedAt: 'Qualidade do Ar',
+  },
+  {
+    id: 'gal-44',
+    title: 'Medição Acústica em Armazém Logístico e Industrial',
+    category: 'Campanhas de monitorização',
+    caption: 'Avaliação de níveis de pressão sonora com sonómetro calibrado em tripé em unidade de armazenagem industrial.',
+    location: 'Luanda, Angola',
+    imageUrl: '/assets/aistudio/5_84d53635.jpg',
+    capturedAt: 'Campanha Acústica',
+  },
+  {
+    id: 'gal-45',
+    title: 'Controlo Ocupacional de Ruído e PHST em Sala Técnica',
+    category: 'Avaliações ambientais',
+    caption: 'Especialistas da BIOSFERA em registo de parâmetros de higiene ocupacional e conformidade sonora em unidade fabril.',
+    location: 'Luanda, Angola',
+    imageUrl: '/assets/aistudio/17_ff3868a9.jpg',
+    capturedAt: 'Higiene e Segurança (PHST)',
+  },
+  {
+    id: 'gal-46',
+    title: 'Detecção de Gases Industriais com Monitor Multigás',
+    category: 'Campanhas de monitorização',
+    caption: 'Verificação em tempo real da qualidade do ar interior e segurança atmosférica em pavilhão industrial.',
+    location: 'Luanda, Angola',
+    imageUrl: '/assets/aistudio/14_54d76938.jpg',
+    capturedAt: 'Controlo Atmosférico',
+  },
+  {
+    id: 'gal-47',
+    title: 'Vistoria Ambiental a Bacia de Retenção e Efluentes',
+    category: 'Avaliações ambientais',
+    caption: 'Inspecção técnica presencial às condições hídricas, taludes e gestão de efluentes em perímetro industrial.',
+    location: 'Angola',
+    imageUrl: '/assets/aistudio/42_30a6c71c.jpg',
+    capturedAt: 'Fiscalização Ambiental',
+  },
+  {
+    id: 'gal-48',
+    title: 'Recolha de Amostras de Solo em Terreno Argiloso',
+    category: 'Recolha de amostras',
+    caption: 'Técnicos ambientais da BIOSFERA em colheita directa de amostras edáficas para caracterização físico-química.',
+    location: 'Angola',
+    imageUrl: '/assets/aistudio/_MGL0315_6cc72898.jpg',
+    capturedAt: 'Amostragem de Solos',
+  },
+  {
+    id: 'gal-49',
+    title: 'Amostragem Hídrica Segura em Canal de Drenagem',
+    category: 'Recolha de amostras',
+    caption: 'Operação de recolha de água com arnês de segurança e linha de vida em cumprimento das normas de HST.',
+    location: 'Luanda, Angola',
+    imageUrl: '/assets/aistudio/WhatsApp_Image_2025-04-14_at_12.01.40_44321e54.jpeg',
+    capturedAt: 'Segurança em Campo',
+  },
+  {
+    id: 'gal-50',
+    title: 'Mobilização de Equipa Técnica e Frota BIOSFERA',
+    category: 'Visitas técnicas',
+    caption: 'Consultora ambiental equipada com EPI completo e documentação técnica antes da saída para visita de campo.',
+    location: 'Kilamba, Luanda',
+    imageUrl: '/assets/aistudio/WhatsApp_Image_2026-11-26_at_15.45.32_6f7a3d70.jpeg',
+    capturedAt: 'Operação de Campo',
+  },
   {
     id: 'gal-1',
     title: 'Campanha de Monitorização Hídrica e Ambiental',
