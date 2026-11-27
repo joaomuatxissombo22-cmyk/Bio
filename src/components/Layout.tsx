@@ -12,6 +12,7 @@ import {
   Languages,
   ChevronDown,
   Check,
+  Search,
 } from 'lucide-react';
 import { BIOSFERA_LOGO_GIF_URL, BIOSFERA_LOGO_URL } from '../data/defaults';
 import { useSite } from '../context/SiteContext';
@@ -21,6 +22,7 @@ import { NAV_LABELS } from '../i18n/translations';
 import { ChristmasNotice } from './ChristmasNotice';
 import { NotificationBar } from './NotificationBar';
 import { SantaHatOverlay } from './SantaHatOverlay';
+import { PortalSearchModal } from './PortalSearchModal';
 
 const LANGUAGE_OPTIONS: {
   code: SiteLanguage;
@@ -39,6 +41,7 @@ export const Layout: React.FC<{
 }> = ({ children, quotaExceeded = false }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [christmasOpenSignal, setChristmasOpenSignal] = useState(0);
   const langMenuRef = useRef<HTMLDivElement | null>(null);
 
@@ -47,6 +50,18 @@ export const Layout: React.FC<{
   const { lang, setLang, t } = useLanguage();
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/acesso/');
+
+  useEffect(() => {
+    if (isAdminRoute) return;
+    const handleGlobalKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [isAdminRoute]);
 
   useEffect(() => {
     if (!langMenuOpen) return;
@@ -147,8 +162,25 @@ export const Layout: React.FC<{
             ))}
           </nav>
 
-          {/* Zone 3: Language Switcher (PT / EN / 繁體中文) + Theme Toggle + Primary CTA + Mobile Toggle */}
+          {/* Zone 3: Search + Language Switcher (PT / EN / 繁體中文) + Theme Toggle + Primary CTA + Mobile Toggle */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              aria-label={t(
+                'Pesquisar serviços, notícias ou artigos (Ctrl+K)',
+                'Search services, news, or articles (Ctrl+K)',
+                '搜尋服務、新聞或文章 (Ctrl+K)'
+              )}
+              title={t('Pesquisar no Portal (Ctrl+K)', 'Search Portal (Ctrl+K)', '搜尋網站 (Ctrl+K)')}
+              className="inline-flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-lg border border-neutral-200 dark:border-[#2B5946] bg-[#F4F7F5] dark:bg-[#163127] text-[#1B6B4A] dark:text-[#BCE87D] hover:border-[#1E7E54] dark:hover:border-[#8BC53F] transition-colors min-h-[42px] min-w-[42px] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1B6B4A]"
+            >
+              <Search className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span className="hidden 2xl:inline text-xs font-semibold">
+                {t('Pesquisar', 'Search', '搜尋')}
+              </span>
+            </button>
+
             <div className="relative" ref={langMenuRef}>
               <button
                 type="button"
@@ -478,6 +510,7 @@ export const Layout: React.FC<{
       </footer>
 
       <ChristmasNotice openSignal={christmasOpenSignal} />
+      <PortalSearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
     </div>
   );
 };

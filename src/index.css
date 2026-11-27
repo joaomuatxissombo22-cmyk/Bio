@@ -128,4 +128,147 @@ html.dark .dynamic-title-sheen {
   }
 }
 
+/* ==========================================================================
+   Accessibility Modes: High Contrast (WCAG AAA) & Underline Links
+   ========================================================================== */
+
+html.a11y-underline-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+html.high-contrast,
+html.high-contrast body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  color-scheme: dark;
+}
+
+html.high-contrast header,
+html.high-contrast main,
+html.high-contrast section,
+html.high-contrast footer,
+html.high-contrast nav,
+html.high-contrast article,
+html.high-contrast aside,
+html.high-contrast [role="dialog"],
+html.high-contrast [role="listbox"] {
+  background-color: #000000 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border-color: #ffee00 !important;
+}
+
+html.high-contrast div,
+html.high-contrast li,
+html.high-contrast p,
+html.high-contrast span,
+html.high-contrast label,
+html.high-contrast td,
+html.high-contrast th {
+  color: #ffffff !important;
+  border-color: rgba(255, 238, 0, 0.55) !important;
+}
+
+/* Keep solid high-contrast surfaces on cards, panels, and form fields */
+html.high-contrast [class*="bg-white"],
+html.high-contrast [class*="bg-[#F4F7F5]"],
+html.high-contrast [class*="bg-[#11261E]"],
+html.high-contrast [class*="bg-[#0D1E18]"],
+html.high-contrast [class*="bg-[#163127]"],
+html.high-contrast [class*="bg-[#1B6B4A]"],
+html.high-contrast [class*="bg-[#182C61]"],
+html.high-contrast [class*="bg-[#081410]"],
+html.high-contrast [class*="bg-neutral-"] {
+  background-color: #0a0a0a !important;
+  background-image: none !important;
+}
+
+/* Ensure headings stand out crisply without transparent gradient fills */
+html.high-contrast h1,
+html.high-contrast h2,
+html.high-contrast h3,
+html.high-contrast h4,
+html.high-contrast .dynamic-title-sheen,
+html.high-contrast .dynamic-title-sheen-light {
+  color: #ffee00 !important;
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: #ffee00 !important;
+}
+
+/* Links: unmistakable high-contrast yellow with underline */
+html.high-contrast a,
+html.high-contrast a span {
+  color: #ffee00 !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Interactive buttons & tabs: crisp black/yellow contrast */
+html.high-contrast button {
+  background-color: #000000 !important;
+  color: #ffee00 !important;
+  border: 2px solid #ffee00 !important;
+}
+
+html.high-contrast button span,
+html.high-contrast button svg {
+  color: #ffee00 !important;
+}
+
+html.high-contrast button:hover,
+html.high-contrast button[aria-pressed="true"],
+html.high-contrast button[aria-selected="true"],
+html.high-contrast button[aria-checked="true"] {
+  background-color: #ffee00 !important;
+  color: #000000 !important;
+}
+
+html.high-contrast button:hover span,
+html.high-contrast button:hover svg,
+html.high-contrast button[aria-pressed="true"] span,
+html.high-contrast button[aria-pressed="true"] svg,
+html.high-contrast button[aria-selected="true"] span,
+html.high-contrast button[aria-selected="true"] svg,
+html.high-contrast button[aria-checked="true"] span,
+html.high-contrast button[aria-checked="true"] svg {
+  color: #000000 !important;
+}
+
+/* Form controls */
+html.high-contrast input,
+html.high-contrast textarea,
+html.high-contrast select {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+html.high-contrast input::placeholder,
+html.high-contrast textarea::placeholder {
+  color: #d4d4d4 !important;
+}
+
+/* Clear focus ring for keyboard navigation */
+html.high-contrast :focus-visible {
+  outline: 3px solid #ffee00 !important;
+  outline-offset: 3px !important;
+}
+
+/* Keep brand logos readable on white frame & sharpen photographs slightly */
+html.high-contrast img[alt*="BIOSFERA"],
+html.high-contrast img[alt*="Logótipo"] {
+  background-color: #ffffff !important;
+  padding: 2px 4px;
+  border-radius: 6px;
+}
+
+html.high-contrast img {
+  filter: contrast(1.12);
+}
+
+
 

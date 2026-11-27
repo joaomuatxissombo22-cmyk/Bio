@@ -14,7 +14,7 @@ FileETag MTime Size
   <IfModule mod_rewrite.c>
     RewriteEngine On
     # Never cache API endpoints, uploads, or restricted admin portal
-    RewriteCond %{REQUEST_URI} ^/(api|uploads|acesso-restrito)(/|$) [NC]
+    RewriteCond %{REQUEST_URI} ^/(api|uploads|acesso|acesso-restrito)(/|$) [NC]
     RewriteRule .* - [E=Cache-Control:no-cache]
     # Never cache non-GET/HEAD requests
     RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$

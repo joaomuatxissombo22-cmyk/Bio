@@ -22,13 +22,14 @@ export const ServicesPage: React.FC = () => {
 
   useEffect(() => {
     if (location.hash) {
+      setSelectedSlug('all');
       const targetId = location.hash.replace('#', '');
-      const el = document.getElementById(targetId);
-      if (el) {
-        setTimeout(() => {
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      }
+        }
+      }, 120);
     }
   }, [location.hash]);
 

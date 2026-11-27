@@ -9,7 +9,7 @@ FileETag MTime Size
   CacheLookup on
   <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{REQUEST_URI} ^/(api|uploads|acesso-restrito)(/|$) [NC]
+    RewriteCond %{REQUEST_URI} ^/(api|uploads|acesso|acesso-restrito)(/|$) [NC]
     RewriteRule .* - [E=Cache-Control:no-cache]
     RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$
     RewriteRule .* - [E=Cache-Control:no-cache]

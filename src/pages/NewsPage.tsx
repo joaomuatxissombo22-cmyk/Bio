@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ArrowRight, Calendar, X } from 'lucide-react';
 import { SeoHead } from '../components/SeoHead';
 import { SafeImage } from '../components/SafeImage';
@@ -17,8 +18,22 @@ type DisplayNewsArticle = Omit<NewsArticle, 'category'> & { category: string };
 export const NewsPage: React.FC = () => {
   const { news: rawNews } = useSite();
   const { lang, t } = useLanguage();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
   const [activeArticle, setActiveArticle] = useState<DisplayNewsArticle | null>(null);
+
+  useEffect(() => {
+    const articleId = searchParams.get('artigo');
+    if (!articleId) return;
+    const found = rawNews.find((item) => item.id === articleId);
+    if (found) {
+      setSelectedCategory('Todas');
+      setActiveArticle(localizeNewsArticle(found, lang));
+      const next = new URLSearchParams(searchParams);
+      next.delete('artigo');
+      setSearchParams(next, { replace: true });
+    }
+  }, [searchParams, rawNews, lang, setSearchParams]);
 
   const filteredNews = useMemo(() => {
     const base =

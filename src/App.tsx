@@ -6,6 +6,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import { Layout } from './components/Layout';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ProposalModal } from './components/ProposalModal';
+import { AccessibilityMenu } from './components/AccessibilityMenu';
 import { HomePage } from './pages/HomePage';
 
 const AboutPage = lazy(() =>
@@ -88,6 +89,7 @@ export default function App() {
               </ErrorBoundary>
             </Layout>
             <ProposalModal />
+            <AccessibilityMenu />
           </SiteProvider>
         </BrowserRouter>
       </ThemeProvider>

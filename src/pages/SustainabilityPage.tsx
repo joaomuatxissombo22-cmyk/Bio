@@ -4,6 +4,8 @@ import { SeoHead } from '../components/SeoHead';
 import { SafeImage } from '../components/SafeImage';
 import { PageBanner } from '../components/PageBanner';
 import { DynamicHeading } from '../components/DynamicHeading';
+import { SustainabilityMetricsChart } from '../components/SustainabilityMetricsChart';
+import { SustainabilityFaq } from '../components/SustainabilityFaq';
 import { useSite } from '../context/SiteContext';
 import { useLanguage } from '../context/LanguageContext';
 import { IMG_BIODIVERSITY, IMG_WASTE } from '../data/defaults';
@@ -107,8 +109,11 @@ export const SustainabilityPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Interactive Quarterly Waste Management & Environmental Metrics (Recharts) */}
+      <SustainabilityMetricsChart />
+
       {/* 6 Pillars */}
-      <section className="py-16 bg-[#F4F7F5] dark:bg-[#0D1E18] border-y border-neutral-200 dark:border-[#224738]">
+      <section className="py-16 bg-white dark:bg-[#081410]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <DynamicHeading
             as="h2"
@@ -130,9 +135,9 @@ export const SustainabilityPage: React.FC = () => {
               return (
                 <div
                   key={pillar.title}
-                  className="bg-white dark:bg-[#11261E] rounded-xl border border-neutral-200 dark:border-[#224738] p-6 space-y-3"
+                  className="bg-[#F4F7F5] dark:bg-[#11261E] rounded-xl border border-neutral-200 dark:border-[#224738] p-6 space-y-3"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#F4F7F5] dark:bg-[#163127] text-[#1B6B4A] dark:text-[#7FD1A8] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-white dark:bg-[#163127] text-[#1B6B4A] dark:text-[#7FD1A8] flex items-center justify-center border border-neutral-200/70 dark:border-[#224738]">
                     <Icon className="w-5 h-5" aria-hidden="true" />
                   </div>
                   <h3 className="font-display text-lg font-bold text-[#1B6B4A] dark:text-[#ECF5F0]">
@@ -149,7 +154,7 @@ export const SustainabilityPage: React.FC = () => {
       </section>
 
       {/* Educational Good Practices */}
-      <section className="py-16 bg-white dark:bg-[#081410]">
+      <section className="py-16 bg-[#F4F7F5] dark:bg-[#0D1E18] border-y border-neutral-200 dark:border-[#224738]">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
             <div className="lg:col-span-7 space-y-6">
@@ -167,7 +172,7 @@ export const SustainabilityPage: React.FC = () => {
                 {goodPractices.map((gp) => (
                   <div
                     key={gp.title}
-                    className="p-5 rounded-xl bg-[#F4F7F5] dark:bg-[#11261E] border border-neutral-200/80 dark:border-[#224738]"
+                    className="p-5 rounded-xl bg-white dark:bg-[#11261E] border border-neutral-200/80 dark:border-[#224738]"
                   >
                     <h3 className="font-display text-base font-bold text-[#1B6B4A] dark:text-[#ECF5F0]">
                       {gp.title}
@@ -227,6 +232,9 @@ export const SustainabilityPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Interactive Sustainability & Regulatory FAQ */}
+      <SustainabilityFaq />
     </>
   );
 };
